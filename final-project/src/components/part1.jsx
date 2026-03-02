@@ -49,7 +49,8 @@ export default function Part1(){
       <div className="headline-container">
         <h1> Find, book and <br/> rent a car <span className="easily-container">
           <p className="Easily">Easily </p>
-          <img className="شحطة" src="/media/vector 1.png" alt="Logo" />
+          
+      
         </span></h1>
         <p>Get a car wherever and whenever you <br/> need it with your IOS and Android device.</p>
         <div className="icons">

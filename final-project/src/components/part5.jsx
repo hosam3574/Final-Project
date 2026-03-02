@@ -23,8 +23,7 @@ return(
 
 
 
-
-<img className=" finalimg" src="/media/Vector (1).png" alt="Logo"/>
+<img src="/media" alt="" />
 <div className="buttonfinal">
 <button className="butto"> <p>TESTIMONIALS </p></button>
 <h1 className="buttoh1">Download Rentcars <br></br>  App for <span className="colerfree">FREE</span> </h1>
