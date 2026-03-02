@@ -1,0 +1,189 @@
+.button{
+
+position: relative;
+border-radius: 10px;
+border: 15px;
+margin-left: 660px;
+width: 170px;
+background-color: rgba(116, 116, 204, 0.164);
+}
+
+.button>P{
+color: rgb(34, 88, 238);
+}
+
+.Rent{
+
+    margin-left: 495px;
+    font-size: 28px;
+    color: rgba(0, 0, 0, 0.863);
+}
+
+
+.imgbutton{
+
+margin-left:350px;
+
+top: 90px;
+
+
+}
+
+
+.imghonad{
+
+   top: -90px;
+}
+
+
+
+/*  اخر الصفحة   */
+
+.Rent2{
+
+    margin-left: 660px;
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.753);
+}
+
+
+.chooesus {
+display: flexbox;
+margin-top: -500px;
+margin-left: 210px;
+}
+
+
+
+
+
+
+.imgtrianglee{
+
+
+    width:690px;
+    
+    
+}
+
+
+.Audicar{
+    top: 50px;
+   
+    margin-top: -950px
+}
+
+
+
+/*  النهاية تاعت الصفحة الاوله  */
+
+.finalpage{
+
+    margin-left: 50%;
+}
+
+
+.money{
+    width: 50px;
+   
+}
+
+.buttons{
+    
+    background-color: whitesmoke;
+    border: 5px;
+    border-radius: 10px;
+   
+}
+
+
+.h1par{
+    margin-left: 90px;
+    margin-top: -75px;
+}
+
+
+
+.h1part2{
+    color: rgba(0, 0, 0, 0.719);
+    font-size: 23px;
+}
+
+.p1part2{
+    color: rgba(0, 0, 0, 0.466);
+}
+
+
+
+
+.feedback-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: pulse 2s infinite;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+ margin-left: 620px;
+ margin-top: 50px;
+  }
+
+  .feedback-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+
+
+
+  .imgcars{
+
+margin-right: 160px;
+
+
+  }
+  .flix{
+   
+   margin-top: -350px;
+   margin-left: 50px;
+   
+  }
+
+
+.h1{
+    color: #0e7ff8 ;
+    font-size: 37px;
+   margin-top: -60px;
+   margin-left: 20px;
+   margin-top: -150px;
+}
+
+  .ppps{
+margin-top: -150px;
+  }
+
+
+
+
+
+  .استأجر{
+margin-top: 90px;
+
+  }
+
+
+
+
+
+  .but1{
+    margin-left: 26px;
+  }
