@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Login from "./components/login";
+
 import Navbar from "./components/Navbar";
 import Part1 from "./components/part1";
 import Part2 from "./components/part2";
@@ -13,7 +13,7 @@ import "./css/part2.css";
 import "./css/part3.css";
 import "./css/part4.css";
 import "./css/part5.css";
-import "./css/login.css";
+
 
 
 
@@ -32,10 +32,7 @@ function App() {
     setUser(null);
   };
 
-  // إذا المستخدم مش موجود، تظهر صفحة Login فقط
-  if (!user) return <Login onLogin={handleLogin} />;
-
-  // بعد تسجيل الدخول، تظهر باقي الصفحة
+ 
   return (
     <>
       <Navbar onLogout={handleLogout} />

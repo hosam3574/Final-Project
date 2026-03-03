@@ -18,6 +18,62 @@ body{
 }
 
 
+.rent-container {
+  position: fixed;
+  top: 150px; /* حسب ارتفاع النافبار */
+right: 0;
+margin-right: 30px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* الزر نفسه */
+.rentnow {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #ff512f, #dd2476);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease;
+}
+
+.rentnow:hover {
+  transform: scale(1.07);
+}
+
+/* السهم */
+.arrow {
+  font-size: 40px;
+  color: #dd2476;
+  margin-bottom: 10px;
+  animation: blinkArrow 1.5s infinite;
+}
+
+/* أنيميشن يطلع ويختفي */
+@keyframes blinkArrow {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+
+
+
 .locatio{
   margin-top: 9px;
   
@@ -58,8 +114,8 @@ body{
 .Easily{
     color:rgb(34, 88, 238) ;
 
-    margin-left: 190px;
-    margin-top: -50px;
+    margin-left: 296px;
+    margin-top: -70px;
 }
 
 .شحطة{

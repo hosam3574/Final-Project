@@ -44,7 +44,12 @@ export default function Part1(){
   };
 
   return (
+
     <div className="all">
+    <div className="rent-container">
+  <div className="arrow">↶</div>
+  <button className="rentnow">🚗 Rent Now</button>
+</div>
       {/* المحتوى الأصلي Part1 يبقى كما هو */}
       <div className="headline-container">
         <h1> Find, book and <br/> rent a car <span className="easily-container">
