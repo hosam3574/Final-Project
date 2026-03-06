@@ -39,21 +39,21 @@ export default function Part4() {
 
         <button className="idet">
           <div className="manpic">
-            <img src="/media/man picther.png" alt="Logo" />
+            <img style={{ width: '400px', height: '480px',marginTop: '-40px' }} src="/media/man picther.png" alt="Logo" />
           </div>
           <div className="clas">
-            <h1>5.0 <span>stars</span></h1>
+            <h1 style={{ fontSize: '24px', color: '#333' }}>5.0 <span>stars</span></h1>
             <br />
             <img src="/media/stars.png" alt="Logo" />
             <br />
-            <p>
+            <p style={{ fontSize: '18px', color: '#555', lineHeight: '1.5', marginTop: '20px', marginLeft: '70px' }}>
               “I feel very secure when using <br />
               caretall's services. Your customer <br />
               care team is very enthusiastic and <br />
               the driver is always on time.”
             </p>
             <br /><br />
-            <h2>Charlie Johnson</h2>
+            <h2 style={{ color: '#555' }}>Charlie Johnson</h2>
           </div>
         </button>
 

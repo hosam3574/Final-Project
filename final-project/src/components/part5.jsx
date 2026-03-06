@@ -23,13 +23,14 @@ return(
 
 
 
-<img src="/media" alt="" />
+<img className="hosamedit" src="/media/Vector (3).png" alt="logo" />
 <div className="buttonfinal">
-<button className="butto"> <p>TESTIMONIALS </p></button>
+
+<div className="alltrad">
 <h1 className="buttoh1">Download Rentcars <br></br>  App for <span className="colerfree">FREE</span> </h1>
 <p>For faster, easier booking and exclusive deals.</p>
 
-
+</div>
  <div className="icons">
   <a href="https://play.google.com/store/apps/details?id=com.rentalcars.online&hl=ar"><img className="im1" src="/media/image 2.png" alt="Logo"/></a>
 

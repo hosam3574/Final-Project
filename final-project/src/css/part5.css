@@ -4,11 +4,30 @@
 }
 
 
+
+.hosamedit{
+  
+    margin-top: -0px;
+    margin-left: 00px;
+    width: 600px;
+}
+
+
+
+.alltrad{
+  
+    margin-top: -350px;
+}
+
+
+
+
 .part5{
 
 background-color: white;
 
 height: 600px;
+
 
 }
 
@@ -25,13 +44,15 @@ height: 600px;
     border: 2px;
     border-radius: 15px;
     color:rgb(69, 69, 255) ;
-   
+ 
     margin-left: 20px;
 }
 
 
 .buttoh1{
     font-size: 40px;
+    
+  
 }
 
 
@@ -46,7 +67,7 @@ height: 600px;
 
 .buttonfinal{
 
-    margin-top: -40px;
+    margin-top: 50px;
     margin-left: 130px;
 }
 
@@ -55,7 +76,7 @@ height: 600px;
 .iphone{
 
     margin-left: 700px;
-    margin-top: -300px;
+    margin-top: -350px;
 }
 
 .iphone2{

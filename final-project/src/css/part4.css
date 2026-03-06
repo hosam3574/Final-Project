@@ -43,13 +43,14 @@ margin-top: -500px;
 
 
 .manpic{
-    margin-right: 350px;
+    margin-right: 550px;
+    margin-top: 40px;
 }
 
 
 .clas{
     margin-left: 300px;
-    margin-top: -290px;
+    margin-top: -390px;
 }
 
 
@@ -60,13 +61,12 @@ margin-top: -500px;
 
 .backbutton3{
 
-width: 290px;
-height: 200px;
+
 background-color: white;
 border: 5px;
 border-radius: 15px;
 margin-left: 80%;
-margin-top: -1500px;
+margin-top: -1000px;
 
 }
 
