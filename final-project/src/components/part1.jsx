@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 
 export default function Part1(){
   const [showPickup, setShowPickup] = useState(false);
@@ -48,7 +48,7 @@ export default function Part1(){
     <div className="all">
     <div className="rent-container">
   <div className="arrow">↶</div>
-  <button className="rentnow">🚗 Rent Now</button>
+    <Link to="/page2"><button className="rentnow">🚗 Rent Now</button></Link>
 </div>
       {/* المحتوى الأصلي Part1 يبقى كما هو */}
       <div className="headline-container">
