@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-
-
+ import {  Route , Routes } from "react-router-dom";
+import Page2 from "./components/Page2";
 
 
 
@@ -13,7 +12,7 @@ function App() {
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) setUser(JSON.parse(savedUser));
+    if (savedUser) setUser(JSON.parse(savedUser)); 
   }, []);
 
   const handleLogin = (loggedInUser) => setUser(loggedInUser);
@@ -25,8 +24,13 @@ function App() {
  
   return (
     <>
-      <Navbar onLogout={handleLogout} />
-      <Home />
+    <Routes>
+      <Route path="/page2" element={<Page2 />} />
+      <Route path="/" element={ <Home />} />
+
+    </Routes>
+     
+    
     </>
   );
 }

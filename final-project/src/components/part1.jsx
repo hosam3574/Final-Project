@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 export default function Part1(){
   const [showPickup, setShowPickup] = useState(false);
   const [pickupDate, setPickupDate] = useState("");
   const [showReturn, setShowReturn] = useState(false);
   const [returnDate, setReturnDate] = useState("");
   const [notification, setNotification] = useState(null);
-
+  const navigate = useNavigate();
   // اليوم الحالي بصيغة YYYY-MM-DD
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -47,9 +49,9 @@ export default function Part1(){
 
     <div className="all">
     <div className="rent-container">
-  <div className="arrow">↶</div>
-    <Link to="/page2"><button className="rentnow">🚗 Rent Now</button></Link>
-</div>
+    <div className="arrow">↶</div>
+    <button onClick={()=>navigate('/page2')} className="rentnow">🚗 Rent Now</button>
+    </div>
       {/* المحتوى الأصلي Part1 يبقى كما هو */}
       <div className="headline-container">
         <h1> Find, book and <br/> rent a car <span className="easily-container">
