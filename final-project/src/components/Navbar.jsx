@@ -8,7 +8,7 @@ export default function Navbar({ onLogout }) {
   const toggleInfo = () => setShowInfo(!showInfo);
 
   return (
-    <>
+    <div>
       <nav style={styles.nav}>
         {/* Logo */}
         <img src="/media/log1.png" alt="Logo" style={styles.logo} />
@@ -135,11 +135,16 @@ export default function Navbar({ onLogout }) {
           }
         `}
       </style>
-    </>
+    </div>
   );
 }
 
 const styles = {
+
+
+
+
+  
   nav: {
     display: "flex",
     justifyContent: "space-between",

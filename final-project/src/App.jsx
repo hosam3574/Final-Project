@@ -5,6 +5,8 @@ import Home from "./components/Home";
 import Page2 from "./components/Page2";
 
 
+import "./css/Home.css";
+import "./css/page2.css";
 
 
 function App() {
@@ -36,3 +38,6 @@ function App() {
 }
 
 export default App;
+
+
+
