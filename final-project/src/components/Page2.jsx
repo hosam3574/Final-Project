@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 import CarCard from "./carCard";
-
+import { useNavigate } from "react-router-dom";
 export default function Part3() {
-  const [showSUV, setShowSUV] = useState(false);
 
+
+  const [showSUV, setShowSUV] = useState(false);
+const navigate = useNavigate();
   return (
     <div>
 
@@ -89,57 +91,24 @@ export default function Part3() {
         
       )}
 
-<br /><br /><br /><br />
- <button
-  className="home-btn"
-  onClick={() => (window.location.href = "/")}
->
+<br /><br /><br /><br /><br /><br /><br /><br />
+<button className="home-btn" onClick={() => navigate("/")}>
   العودة للصفحة الرئيسية
 </button>
 
-<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
 
 
 
 
 
-<div className="part5">
+
 
 
     
 
 
-
-<img className="hosamedit" src="/media/Vector (3).png" alt="logo" />
-<div className="buttonfinal">
-
-<div className="alltrad">
-<h1 className="buttoh1">Download Rentcars <br></br>  App for <span className="colerfree">FREE</span> </h1>
-<p>For faster, easier booking and exclusive deals.</p>
-
-</div>
- <div className="icons">
-  <a href="https://play.google.com/store/apps/details?id=com.rentalcars.online&hl=ar"><img className="im1" src="/media/image 2.png" alt="Logo"/></a>
-
-<a href="https://apps.apple.com/us/app/%D8%AA%D8%A3%D8%AC%D9%8A%D8%B1-%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%AA%D8%A7%D8%AC%D9%8A%D8%B1-%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA/id1613929322?l=ar"><img className="im2" src="/media/image 3.png" alt="Logo"/></a>
-
-
- </div>
- <img className=" iphone " src=" /media/iphone.png" alt="logo"  />
-
- </div>
-
- <div>
-
- 
-<img  className=" iphone2 " src="/media/iPhone 14 Pro Space Black Mockup label.png" alt="Logo"/>
-</div>
-
-
-
-</div>
-    
 <div>
 
 

@@ -71,16 +71,16 @@ export default function Part2(){
 <div className="chooesus ">
 <button className="button"> <p>WHY CHOOES US</p>
  </button>
-<br></br>
+<br></br><br /><br />
 <h1 className="Rent2">We offer the best experience <br></br> with our rental deals </h1>
-<br></br>
+<br></br><br /><br /><br /><br /><br />
 
 
 
 
 <div className="finalpage">
 <button className="buttons"><img className=" money " src= " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMYlcWOOctr8OHxiK1-L_OoO6z9OjgJSq7dU2sfbYlpoNE7fU0wz0pnq2SP2Hj_50VXlI&usqp=CAU" alt= " "/>  </button>
-
+<br /><br />
 
 <div className="h1par">
     <h1 className="h1part2">Best price guaranteed</h1>
@@ -88,12 +88,12 @@ export default function Part2(){
 </div>
 
 
-<br></br>
+<br></br><br /><br />
 
 
 <button className="buttons"><img className=" money " src= " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMYlcWOOctr8OHxiK1-L_OoO6z9OjgJSq7dU2sfbYlpoNE7fU0wz0pnq2SP2Hj_50VXlI&usqp=CAU" alt= " "/>  </button>
 
-
+<br /><br />
 <div className="h1par">
     <h1 className="h1part2">Experience driver</h1>
 <p className="p1part2" > Don’t have driver? Don’t worry, we have many <br></br>
@@ -101,12 +101,13 @@ experienced driver for you.</p>
 </div>
 
 
-<br></br>
+<br></br><br /><br />
+
 
 
 
 <button className="buttons"><img className=" money " src= " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMYlcWOOctr8OHxiK1-L_OoO6z9OjgJSq7dU2sfbYlpoNE7fU0wz0pnq2SP2Hj_50VXlI&usqp=CAU" alt= " "/>  </button>
-
+<br /><br />
 
 <div className="h1par">
     <h1 className="h1part2">24 hour car delivery</h1>
@@ -115,7 +116,7 @@ directly to you.</p>
 </div>
 
 
-<br></br>
+<br></br><br /><br />
 
 
 <button className="buttons"><img className=" money " src= " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMYlcWOOctr8OHxiK1-L_OoO6z9OjgJSq7dU2sfbYlpoNE7fU0wz0pnq2SP2Hj_50VXlI&usqp=CAU" alt= " "/>  </button>
@@ -130,6 +131,7 @@ any time when you have problem. </p>
 <div>
 
 <img className="imgcars" src="https://careem-public-web-media.imgix.net/2_9d1cf731fa_d85bfbe681.webp"alt=""/>
+<br /><br />
 </div>
 
 
@@ -164,7 +166,7 @@ any time when you have problem. </p>
     
   }}
 >
-  🚗 Rent your car now
+  
   <div style={{ fontSize: '28px', marginTop: '10px', animation: 'bounceDown 1.5s infinite' }}>
     <br></br>
     
@@ -200,6 +202,8 @@ any time when you have problem. </p>
 <p className="ppps"> Are you looking for a practical car or a luxury vehicle? <br></br> We have everything you need. Choose from top brands <br></br> like Tesla, Mercedes, Land Rover, Renault, BMW, Toyota, and more to suit your journey.</p>
 </div>
 <h1  className="h1">Discover your ideal car</h1>
+
+
 <br></br>
 <br></br>
 <br></br>
@@ -207,9 +211,7 @@ any time when you have problem. </p>
 <br></br>
 <br></br>
 <br></br>
-<br></br>
-<br></br>
-<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br /><br /><br /><br /><br />
 
  
  

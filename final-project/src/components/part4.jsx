@@ -22,11 +22,13 @@ export default function Part4() {
         <button className="button">
           <p>TESTIMONIALS</p>
         </button>
+        <br /><br />
         <h1 className="whatpepolsay">What people say about us?</h1>
 
-        <br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
 
         <div>
+          
           <div><img className="im0" src="/media/“ (1).png" alt="Logo" /></div>
           <div><img className="im10" src="/media/“.png" alt="Logo" /></div>
         </div>

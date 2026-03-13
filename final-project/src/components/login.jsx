@@ -1,65 +1,73 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./Login.css"; // نعمله الآن
+import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
-  const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
-      if (isRegister) {
-        const res = await axios.post("http://localhost:5000/register", { email, password });
-        alert(res.data.message);
-        setIsRegister(false);
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        onLogin(data.user); // تحديث حالة المستخدم في App.jsx
+        localStorage.setItem("user", JSON.stringify(data.user)); // حفظ بيانات المستخدم
+
+        // 🔹 شرط الادمين
+        if (data.user.email === "admin@rent.com") {
+          navigate("/dashboard"); // يروح للداشبورد
+        } else {
+          navigate("/"); // يروح للصفحة الرئيسية
+        }
+
       } else {
-        const res = await axios.post("http://localhost:5000/login", { email, password });
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        onLogin(res.data.user);
+        setError(data.error || "Login failed");
       }
     } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.error || "حدث خطأ ما");
+      setError("Server error");
     }
   };
 
   return (
-    <div className="login-container">
-      <div className={`login-card ${isRegister ? "register-mode" : ""}`}>
-        <h2 className="title">{isRegister ? "Register" : "Login"}</h2>
+    <div className="login-page">
+      <div className="login-card">
+        <h1 style={{ color: "rgb(34, 88, 238)" }}>Car Rental</h1>
+        <p>Login to your account</p>
+
         <form onSubmit={handleSubmit}>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
-          {error && <p className="error">{error}</p>}
-          <button type="submit" className="btn">
-            {isRegister ? "Register" : "Login"}
-          </button>
+          <button className="login-btn">Login</button>
         </form>
-        <p
-          className="toggle-text"
-          onClick={() => { setIsRegister(!isRegister); setError(""); }}
-        >
-          {isRegister ? "Already have an account? Login" : "Don't have an account? Register"}
-        </p>
+
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+
+        <div className="login-links">
+          <a href="#">Forgot Password?</a>
+          <a href="#">Create Account</a>
+        </div>
       </div>
-      <div className="animated-car"></div>
     </div>
   );
 }

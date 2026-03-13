@@ -1,11 +1,20 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ onLogout }) {
   const [showOptions, setShowOptions] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
+  const navigate = useNavigate();
+
   const toggleOptions = () => setShowOptions(!showOptions);
   const toggleInfo = () => setShowInfo(!showInfo);
+
+  // عند الضغط على Logout
+  const handleLogoutClick = () => {
+    onLogout();           // يمسح المستخدم من App state و localStorage
+    navigate("/login");   // يعيد توجيه المستخدم مباشرة إلى صفحة Login
+  };
 
   return (
     <div>
@@ -43,7 +52,7 @@ export default function Navbar({ onLogout }) {
             </a>
           </li>
 
-          {/* Contact us with arrows above */}
+          {/* Contact us with arrows */}
           <li style={{ position: "relative", textAlign: "center" }}>
             <div
               style={{
@@ -78,14 +87,14 @@ export default function Navbar({ onLogout }) {
 
           {/* 🔴 زر Logout */}
           <li>
-            <button style={styles.logoutButton} onClick={onLogout}>
+            <button style={styles.logoutButton} onClick={handleLogoutClick}>
               Logout
             </button>
           </li>
         </ul>
       </nav>
 
-      {/* Info section يظهر تحت النافبار */}
+      {/* Info section */}
       {showInfo && (
         <div
           style={{
@@ -95,33 +104,16 @@ export default function Navbar({ onLogout }) {
             padding: "0 20px",
           }}
         >
+          <p><strong>My Name:</strong> Hosam Mouyyad Ahmad Tradat</p>
+          <p><strong>3nd year:</strong> Software Engineering Student</p>
+          <p><strong>Phone:</strong> +916 770245471</p>
+          <p><strong>Age:</strong> 20</p>
+          <p><strong>Student at:</strong> SDK</p>
+          <p><strong>Course:</strong> Front-end and Back-end</p>
+          <p><strong>Email:</strong> hossamtradat@gmail.com</p>
           <p>
-            <strong>My Name:</strong> Hosam Mouyyad Ahmad Tradat
-          </p>
-          <p>
-            <strong>3nd year:</strong> Software Engineering Student
-          </p>
-          <p>
-            <strong>Phone:</strong> +916 770245471
-          </p>
-          <p>
-            <strong>Age:</strong> 20
-          </p>
-          <p>
-            <strong>Student at:</strong> SDK
-          </p>
-          <p>
-            <strong>Course:</strong> Front-end and Back-end
-          </p>
-          <p>
-            <strong>Email:</strong> hossamtradat@gmail.com
-          </p>
-          <p>
-            <strong>مشروعي:</strong> بسم الله الرحمن الرحيم، بنسبة لمشروعي
-            مهندس حاولت قد ما اقدر اطبق يلي اخذناه خلال دورتنا، المشروع عبارة
-            عن معرض بسيط شرحت عن وعن الخدمات يلي بقدمها المعرض، وشرحت كيف
-            تستأجر سيارة او اذا حاب تمتلك سيارة أحلامك فقط عليك أن تزور المعرض
-            أو تقوم باستئجار السيارة قبل أن توصل مطار دبي عن بعد. ... وشكرا.
+            <strong>مشروعي:</strong> بسم الله الرحمن الرحيم، المشروع عبارة عن معرض بسيط
+            شرحت فيه الخدمات وكيفية استئجار السيارة أو امتلاك سيارة الأحلام.
           </p>
         </div>
       )}
@@ -140,11 +132,6 @@ export default function Navbar({ onLogout }) {
 }
 
 const styles = {
-
-
-
-
-  
   nav: {
     display: "flex",
     justifyContent: "space-between",
@@ -152,9 +139,7 @@ const styles = {
     padding: "10px 20px",
     backgroundColor: "#eee",
   },
-  logo: {
-    height: "50px",
-  },
+  logo: { height: "50px" },
   links: {
     listStyle: "none",
     display: "flex",
@@ -163,11 +148,7 @@ const styles = {
     padding: 0,
     alignItems: "center",
   },
-  link: {
-    textDecoration: "none",
-    color: "black",
-    fontWeight: "bold",
-  },
+  link: { textDecoration: "none", color: "black", fontWeight: "bold" },
   aboutButton: {
     background: "none",
     border: "none",
@@ -195,16 +176,8 @@ const styles = {
     padding: "10px",
     zIndex: 1000,
   },
-  dropdownItem: {
-    display: "block",
-    padding: "5px 10px",
-    textDecoration: "none",
-    color: "#333",
-  },
-  arrow: {
-    fontSize: "18px",
-    animation: "bounce 1s infinite",
-  },
+  dropdownItem: { display: "block", padding: "5px 10px", textDecoration: "none", color: "#333" },
+  arrow: { fontSize: "18px", animation: "bounce 1s infinite" },
   logoutButton: {
     padding: "6px 12px",
     backgroundColor: "red",

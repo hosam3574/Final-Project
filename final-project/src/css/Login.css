@@ -1,109 +1,74 @@
-/* Container */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  overflow: hidden;
-  font-family: "Poppins", sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-/* Card */
-.login-card {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 50px 40px;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  text-align: center;
-  width: 350px;
-  position: relative;
-  transition: transform 0.5s ease, background 0.5s ease;
+.login-page{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-image:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+    background-size:cover;
+    background-position:center;
 }
 
-/* Hover Animation */
-.login-card:hover {
-  transform: scale(1.05) rotate(-1deg);
+.login-card{
+    width:380px;
+    padding:40px;
+    border-radius:15px;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.15);
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    color:white;
+    text-align:center;
 }
 
-/* Title */
-.title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  color: #333;
-  letter-spacing: 1px;
+.login-card h1{
+    margin-bottom:10px;
+    font-size:32px;
 }
 
-/* Inputs */
-input {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  transition: all 0.3s ease;
+.login-card p{
+    margin-bottom:25px;
 }
 
-input:focus {
-  border-color: #2a5298;
-  outline: none;
-  box-shadow: 0 0 10px rgba(42,82,152,0.3);
+.login-card input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+    outline:none;
 }
 
-/* Button */
-.btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #2a5298;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+.login-btn{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:#ff6b00;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.btn:hover {
-  background: #1e3c72;
-  transform: scale(1.05);
+.login-btn:hover{
+    background:#ff4500;
 }
 
-/* Toggle text */
-.toggle-text {
-  margin-top: 15px;
-  color: #2a5298;
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: 14px;
+.login-links{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
 }
 
-/* Error */
-.error {
-  color: red;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-/* Animated Car */
-.animated-car {
-  position: absolute;
-  bottom: -50px;
-  width: 200px;
-  height: 80px;
-  background: url('https://cdn-icons-png.flaticon.com/512/743/743007.png') no-repeat center/contain;
-  animation: drive 5s linear infinite;
-}
-
-/* Car animation */
-@keyframes drive {
-  0% { transform: translateX(-250px); }
-  100% { transform: translateX(100vw); }
-}
-
-/* Register mode animation */
-.register-mode {
-  background: rgba(255, 255, 255, 0.9);
-  transform: rotate(1deg);
+.login-links a{
+    color:white;
+    font-size:14px;
+    text-decoration:none;
 }
