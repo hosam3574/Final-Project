@@ -5,26 +5,20 @@ export default function CarCard({ name, image, price, reviews, userEmail, onNewR
   const [driverAge, setDriverAge] = useState("");
   const [days, setDays] = useState(1);
   const [isDubai, setIsDubai] = useState(false);
-  const [isTourist, setIsTourist] = useState(false);
   const [phone, setPhone] = useState("");
-  const [passport, setPassport] = useState(null);
   const [notification, setNotification] = useState("");
 
-  const total = days * price;
+  const total = Number(price) * Number(days);
 
   const handleSend = async () => {
-    // ✨ جهز بيانات الحجز
     const rentalData = {
-      customerName: userEmail || "Guest",
-      carName: name,
-      price,
-      days,
-      total,
-      driverAge,
+      name: name,
+      price: Number(price),
+      days: Number(days),
+      total: Number(total),
+      driverAge: Number(driverAge),
       phone: isDubai ? phone : "-",
-      passport: isTourist ? (passport?.name || "Uploaded") : "-",
-      pickupDate: new Date().toISOString().split("T")[0],
-      returnDate: new Date(Date.now() + days*24*60*60*1000).toISOString().split("T")[0],
+      passport: null
     };
 
     console.log("🚗 New Rental Data:", rentalData);
@@ -37,9 +31,16 @@ export default function CarCard({ name, image, price, reviews, userEmail, onNewR
       });
 
       const result = await res.json();
+
       if (res.ok) {
         setNotification("Request sent successfully!");
-        if (onNewRental) onNewRental(rentalData); // 🔥 أرسل البيانات مباشرة لل Dashboard
+        if (onNewRental) {
+          onNewRental({
+            carName: name,
+            driverAge: Number(driverAge),
+            phone: isDubai ? phone : "-"
+          });
+        }
       } else {
         setNotification("❌ Failed: " + result.error);
       }
@@ -52,9 +53,7 @@ export default function CarCard({ name, image, price, reviews, userEmail, onNewR
     setDriverAge("");
     setDays(1);
     setIsDubai(false);
-    setIsTourist(false);
     setPhone("");
-    setPassport(null);
 
     setTimeout(() => setNotification(""), 3000);
   };
@@ -74,25 +73,25 @@ export default function CarCard({ name, image, price, reviews, userEmail, onNewR
         <div className="modal">
           <div className="modal-content">
             <h2>🚗 Rent {name}</h2>
-            <label>Driver Age:
+            <label>
+              Driver Age:
               <input type="number" value={driverAge} onChange={e => setDriverAge(e.target.value)} required />
             </label>
-            <label>Number of Days:
+            <label>
+              Number of Days:
               <input type="number" value={days} onChange={e => setDays(e.target.value)} min="1" required />
             </label>
             <p>Total: ${total}</p>
-            <label>Are you from Dubai?
+            <label>
+              Are you from Dubai?
               <input type="checkbox" checked={isDubai} onChange={e => setIsDubai(e.target.checked)} />
             </label>
-            {isDubai && <label>Phone Number:
-              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required />
-            </label>}
-            <label>Are you a tourist?
-              <input type="checkbox" checked={isTourist} onChange={e => setIsTourist(e.target.checked)} />
-            </label>
-            {isTourist && <label>Passport Copy:
-              <input type="file" onChange={e => setPassport(e.target.files[0])} accept="image/*,.pdf" required />
-            </label>}
+            {isDubai && (
+              <label>
+                Phone Number:
+                <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required />
+              </label>
+            )}
             <div style={{ marginTop: "15px" }}>
               <button className="send-btn" onClick={handleSend}>Send</button>
               <button className="cancel-btn" style={{ marginLeft: "10px" }} onClick={() => setShowModal(false)}>Cancel</button>
@@ -102,19 +101,21 @@ export default function CarCard({ name, image, price, reviews, userEmail, onNewR
       )}
 
       {notification && (
-        <div style={{
-          position: "fixed",
-          top: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          backgroundColor: "#0077ff",
-          color: "white",
-          padding: "10px 20px",
-          borderRadius: "8px",
-          fontWeight: "bold",
-          zIndex: 10000,
-          boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
-        }}>
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            backgroundColor: "#0077ff",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontWeight: "bold",
+            zIndex: 10000,
+            boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+          }}
+        >
           {notification}
         </div>
       )}

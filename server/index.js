@@ -1,135 +1,120 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import React, { useState } from "react";
 
-import User from "./models/User.js";
-import Booking from "./models/Booking.js";
-import Rental from "./models/Rental.js";
+export default function CarCard({ name, image, price, reviews, userEmail, onNewRental }) {
+  const [showModal, setShowModal] = useState(false);
+  const [driverAge, setDriverAge] = useState("");
+  const [days, setDays] = useState(1);
+  const [isDubai, setIsDubai] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [notification, setNotification] = useState("");
 
-dotenv.config();
+  const total = days * price;
 
-const app = express();
-app.use(express.json({ limit: "10mb" }));
+  const handleSend = async () => {
+    // ✨ بيانات الحجز حسب الـ backend
+    const rentalData = {
+      name: name,             // الاسم كما يتوقع backend
+      price,
+      days,
+      total,
+      driverAge,
+      phone: isDubai ? phone : "-", // اختياري
+      passport: null               // اختياري، يمكن لاحقاً تعديلها إذا أضفت الـ schema
+    };
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || origin.startsWith("http://localhost")) callback(null, true);
-    else callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true,
-}));
+    console.log("🚗 New Rental Data:", rentalData);
 
-// Connect MongoDB
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("✅ MongoDB Connected..."))
-  .catch(err => console.error("❌ MongoDB Error:", err));
+    try {
+      const res = await fetch("http://localhost:5000/api/rent-car", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(rentalData),
+      });
 
-const JWT_SECRET = process.env.JWT_SECRET;
+      const result = await res.json();
+      if (res.ok) {
+        setNotification("Request sent successfully!");
 
-// --- Authentication ---
+        // أرسل فقط المعلومات المطلوبة لل Dashboard (Cars tab)
+        if (onNewRental) {
+          onNewRental({
+            carName: name,
+            driverAge,
+            phone: isDubai ? phone : "-"
+          });
+        }
 
-app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: "Email and password required" });
+      } else {
+        setNotification("❌ Failed: " + result.error);
+      }
+    } catch (err) {
+      setNotification("❌ Error sending data");
+      console.error(err);
+    }
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
-    await user.save();
-    res.json({ message: "✅ User registered" });
-  } catch (err) {
-    res.status(400).json({ error: "❌ User already exists" });
-  }
-});
+    // إعادة تهيئة الفورم
+    setShowModal(false);
+    setDriverAge("");
+    setDays(1);
+    setIsDubai(false);
+    setPhone("");
 
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: "Email and password required" });
+    setTimeout(() => setNotification(""), 3000);
+  };
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ error: "User not found" });
+  return (
+    <div className="car-card">
+      <img src={image} alt={name} className="car-image" />
+      <p className="namecar">{name}</p>
+      <div className="reviews">
+        <img className="star" src="/media/Star 1.png" alt="star" />
+        <span>{reviews}</span>
+      </div>
+      <p className="price">${total}</p>
+      <button className="disgin" onClick={() => setShowModal(true)}>Rent Now</button>
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ error: "Invalid password" });
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>🚗 Rent {name}</h2>
+            <label>Driver Age:
+              <input type="number" value={driverAge} onChange={e => setDriverAge(e.target.value)} required />
+            </label>
+            <label>Number of Days:
+              <input type="number" value={days} onChange={e => setDays(e.target.value)} min="1" required />
+            </label>
+            <p>Total: ${total}</p>
+            <label>Are you from Dubai?
+              <input type="checkbox" checked={isDubai} onChange={e => setIsDubai(e.target.checked)} />
+            </label>
+            {isDubai && <label>Phone Number:
+              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required />
+            </label>}
+            <div style={{ marginTop: "15px" }}>
+              <button className="send-btn" onClick={handleSend}>Send</button>
+              <button className="cancel-btn" style={{ marginLeft: "10px" }} onClick={() => setShowModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
-  const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-  res.json({ message: "Login successful", token, user: { id: user._id, email: user.email } });
-});
-
-// --- Booking & Rental API ---
-
-// GET all bookings
-app.get("/api/bookings", async (req, res) => {
-  try {
-    const bookings = await Booking.find();
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ error: "Error fetching bookings" });
-  }
-});
-
-// GET all rentals
-app.get("/api/rentals", async (req, res) => {
-  try {
-    const rentals = await Rental.find();
-    res.json(rentals);
-  } catch (err) {
-    res.status(500).json({ error: "Error fetching rentals" });
-  }
-});
-
-// POST a new booking
-app.post("/api/book", async (req, res) => {
-  const { pickupDate, returnDate } = req.body;
-  if (!pickupDate || !returnDate) return res.status(400).json({ error: "Pickup and return dates required" });
-
-  try {
-    const booking = new Booking({ pickupDate, returnDate });
-    await booking.save();
-    res.json({ message: "✅ Booking saved", booking });
-  } catch (err) {
-    res.status(500).json({ error: "Error saving booking" });
-  }
-});
-
-// POST a new rental
-app.post("/api/rent-car", async (req, res) => {
-  const { name, price, days, total, driverAge, phone, passport } = req.body;
-  if (!name || !price || !days || !total || !driverAge) return res.status(400).json({ error: "Missing required fields" });
-
-  try {
-    const rental = new Rental({ name, price, days, total, driverAge, phone, passport });
-    await rental.save();
-    res.json({ message: "✅ Rental saved", rental });
-  } catch (err) {
-    res.status(500).json({ error: "Error saving rental data" });
-  }
-});
-
-// DELETE a booking by ID
-app.delete("/api/bookings/:id", async (req, res) => {
-  try {
-    await Booking.findByIdAndDelete(req.params.id);
-    res.json({ message: "Booking deleted" });
-  } catch (err) {
-    res.status(500).json({ error: "Error deleting booking" });
-  }
-});
-
-// DELETE old bookings (returnDate < today)
-app.delete("/api/bookings-old", async (req, res) => {
-  try {
-    const today = new Date().toISOString().split('T')[0];
-    const result = await Booking.deleteMany({ returnDate: { $lt: today } });
-    res.json({ deletedCount: result.deletedCount });
-  } catch (err) {
-    res.status(500).json({ error: "Error deleting old bookings" });
-  }
-});
-
-// --- Start server ---
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Backend running on http://localhost:${PORT}`));
+      {notification && (
+        <div style={{
+          position: "fixed",
+          top: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          backgroundColor: "#0077ff",
+          color: "white",
+          padding: "10px 20px",
+          borderRadius: "8px",
+          fontWeight: "bold",
+          zIndex: 10000,
+          boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+        }}>
+          {notification}
+        </div>
+      )}
+    </div>
+  );
+}
