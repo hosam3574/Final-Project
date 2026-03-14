@@ -1,107 +1,209 @@
 import React, { useEffect, useState } from "react";
+import "../css/dashboard.css";
+import Charts from "./Charts";
+import CarCard from "./CarCard";
 
 export default function Dashboard() {
   const [bookings, setBookings] = useState([]);
   const [rentals, setRentals] = useState([]);
+  const [cars, setCars] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [activeTab, setActiveTab] = useState("Dashboard");
+
+  const menuItems = ["Dashboard", "Bookings", "Cars", "Customers", "Settings"];
 
   useEffect(() => {
-    // جلب بيانات التواريخ
-    fetch("http://localhost:5000/api/bookings")
-      .then(res => res.json())
-      .then(data => setBookings(data))
-      .catch(err => console.error(err));
-
-    // جلب بيانات السيارات المستأجرة
-    fetch("http://localhost:5000/api/rentals")
-      .then(res => res.json())
-      .then(data => setRentals(data))
-      .catch(err => console.error(err));
+    fetchAll();
   }, []);
 
-  const cardStyle = {
-    backgroundColor: "#f0f4ff",
-    padding: "15px 20px",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-    marginBottom: "15px",
-    transition: "transform 0.2s, box-shadow 0.2s",
+  const fetchAll = () => {
+    fetch("http://localhost:5000/api/bookings").then(res => res.json()).then(setBookings);
+    fetch("http://localhost:5000/api/rentals").then(res => res.json()).then(setRentals);
+    fetch("http://localhost:5000/api/cars").then(res => res.json()).then(setCars);
+    fetch("http://localhost:5000/api/customers").then(res => res.json()).then(setCustomers);
   };
 
-  const sectionTitle = {
-    fontSize: "22px",
-    color: "#2240ee",
-    marginBottom: "10px",
-    borderBottom: "2px solid #2240ee",
-    display: "inline-block",
-    paddingBottom: "5px",
+  // Delete functions
+  const deleteBooking = async (id) => {
+    await fetch(`http://localhost:5000/api/bookings/${id}`, { method: "DELETE" });
+    setBookings(prev => prev.filter(b => b._id !== id));
   };
 
-  // دالة لمسح كل البيانات من العرض
-  const clearDashboard = () => {
-    setBookings([]);
-    setRentals([]);
+  const deleteCar = async (id) => {
+    await fetch(`http://localhost:5000/api/cars/${id}`, { method: "DELETE" });
+    setCars(prev => prev.filter(c => c._id !== id));
   };
+
+  const deleteCustomer = async (id) => {
+    await fetch(`http://localhost:5000/api/customers/${id}`, { method: "DELETE" });
+    setCustomers(prev => prev.filter(c => c._id !== id));
+  };
+
+  // عند استئجار سيارة جديدة
+  const handleNewRental = (rental) => {
+    setRentals(prev => [...prev, rental]);
+  };
+
+  const totalCars = cars.length;
+  const totalBookings = bookings.length;
+  const totalCustomers = customers.length;
+  const totalRevenue = rentals.reduce((sum, r) => sum + (r.total || 0), 0);
 
   return (
-    <div style={{ padding: "30px", fontFamily: "'Segoe UI', sans-serif", backgroundColor: "#eef2ff", minHeight: "100vh" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1 style={{ color: "#2240ee", marginBottom: "25px", fontSize: "32px" }}>🚀 Dashboard</h1>
-        <button
-          onClick={clearDashboard}
-          style={{
-            padding: "8px 15px",
-            backgroundColor: "#2240ee",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            fontSize: "16px",
-            height: "fit-content"
-          }}
-        >
-          Clear Dashboard
-        </button>
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <h2>CarRent</h2>
+        <ul>
+          {menuItems.map(item => (
+            <li
+              key={item}
+              className={activeTab === item ? "active" : ""}
+              onClick={() => setActiveTab(item)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <h2 style={sectionTitle}>📅 Bookings</h2>
-      {bookings.length === 0 ? (
-        <p style={{ color: "#555" }}>No bookings yet.</p>
-      ) : (
-        bookings.map((b, i) => (
-          <div
-            key={i}
-            style={cardStyle}
-            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.02)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <strong>Pickup:</strong> {b.pickupDate} <br/>
-            <strong>Return:</strong> {b.returnDate}
-          </div>
-        ))
-      )}
+      {/* Main */}
+      <div className="main">
+        <div className="topbar">
+          <h1>{activeTab}</h1>
+          <button className="logout">Logout</button>
+        </div>
 
-      <h2 style={{ ...sectionTitle, marginTop: "30px" }}>🚗 Rentals</h2>
-      {rentals.length === 0 ? (
-        <p style={{ color: "#555" }}>No rentals yet.</p>
-      ) : (
-        rentals.map((r, i) => (
-          <div
-            key={i}
-            style={cardStyle}
-            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.02)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <strong>Car:</strong> {r.name} <br/>
-            <strong>Price per day:</strong> ${r.price} <br/>
-            <strong>Days:</strong> {r.days} <br/>
-            <strong>Total:</strong> ${r.total} <br/>
-            <strong>Driver Age:</strong> {r.driverAge} <br/>
-            <strong>Phone:</strong> {r.phone || "-"} <br/>
-            <strong>Passport:</strong> {r.passport || "-"} <br/>
+        {/* Dashboard Tab */}
+        {activeTab === "Dashboard" && (
+          <>
+            <div className="cards">
+              <div className="card"><h3>Total Cars</h3><p>{totalCars}</p></div>
+              <div className="card"><h3>Bookings</h3><p>{totalBookings}</p></div>
+              <div className="card"><h3>Customers</h3><p>{totalCustomers}</p></div>
+              <div className="card"><h3>Revenue</h3><p>${totalRevenue}</p></div>
+            </div>
+            <Charts bookings={bookings} rentals={rentals} />
+          </>
+        )}
+
+        {/* Bookings Tab */}
+        {activeTab === "Bookings" && (
+          <div className="table-container">
+            <h2>Recent Bookings</h2>
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Pickup</th><th>Return</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                {bookings.map(b => (
+                  <tr key={b._id}>
+                    <td>{b._id}</td>
+                    <td>{b.pickupDate}</td>
+                    <td>{b.returnDate}</td>
+                    <td><button className="btn-delete" onClick={() => deleteBooking(b._id)}>Delete</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))
-      )}
+        )}
+
+        {/* Cars Tab */}
+{activeTab === "Cars" && (
+  <div className="table-container">
+    <h2>Cars Management</h2>
+
+    {cars.map(c => (
+      <CarCard
+        key={c._id}
+        name={c.name}
+        price={c.price}
+        image={c.image}
+        reviews={c.reviews}
+        addRental={handleNewRental} // عند حجز جديد يضيفه للDashboard
+      />
+    ))}
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Type</th> {/* هنا نضيف نوع السيارة */}
+          <th>Price/Day</th>
+          <th>Status</th>
+          <th>Rental Info</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cars.map(c => {
+          const rental = rentals.find(r => r.name === c.name); // الربط بالاسم
+          const status = rental ? "Rented" : "Available";
+
+          return (
+            <tr key={c._id}>
+              <td>{c._id}</td>
+              <td>{c.name}</td> {/* نوع السيارة يظهر هنا */}
+              <td>${c.price}</td>
+              <td>
+                <span className={status === "Rented" ? "badge rented" : "badge available"}>
+                  {status}
+                </span>
+              </td>
+              <td>
+                {rental ? (
+                  <div style={{ fontSize: "0.85em", lineHeight: 1.4 }}>
+                    <div><strong>Customer:</strong> {rental.customerName || "-"}</div>
+                    <div><strong>Type:</strong> {rental.name}</div> {/* نوع السيارة */}
+                    <div><strong>Pickup:</strong> {rental.pickupDate || "-"}</div>
+                    <div><strong>Return:</strong> {rental.returnDate || "-"}</div>
+                    <div><strong>Days:</strong> {rental.days}</div>
+                    <div><strong>Total:</strong> ${rental.total}</div>
+                    <div><strong>Driver Age:</strong> {rental.driverAge}</div>
+                    <div><strong>Phone:</strong> {rental.phone || "-"}</div>
+                  </div>
+                ) : "-"}
+              </td>
+              <td><button className="btn-delete" onClick={() => deleteCar(c._id)}>Delete</button></td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+)}
+
+        {/* Customers Tab */}
+        {activeTab === "Customers" && (
+          <div className="table-container">
+            <h2>Customers Management</h2>
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                {customers.map(c => (
+                  <tr key={c._id}>
+                    <td>{c._id}</td>
+                    <td>{c.name}</td>
+                    <td>{c.email}</td>
+                    <td><button className="btn-delete" onClick={() => deleteCustomer(c._id)}>Delete</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Settings Tab */}
+        {activeTab === "Settings" && (
+          <div style={{ padding: "20px" }}>
+            <h2>Settings</h2>
+            <p>يمكنك إضافة إعدادات Dashboard هنا</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -14,14 +14,10 @@ dotenv.config();
 const app = express();
 app.use(express.json({ limit: "10mb" }));
 
-// ✅ Allow all localhost origins during development
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.startsWith("http://localhost")) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
+    if (!origin || origin.startsWith("http://localhost")) callback(null, true);
+    else callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
 }));
@@ -33,9 +29,8 @@ mongoose.connect(process.env.MONGO_URL)
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// --- Routes ---
+// --- Authentication ---
 
-// Register
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: "Email and password required" });
@@ -50,7 +45,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: "Email and password required" });
@@ -65,7 +59,29 @@ app.post("/login", async (req, res) => {
   res.json({ message: "Login successful", token, user: { id: user._id, email: user.email } });
 });
 
-// Book
+// --- Booking & Rental API ---
+
+// GET all bookings
+app.get("/api/bookings", async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching bookings" });
+  }
+});
+
+// GET all rentals
+app.get("/api/rentals", async (req, res) => {
+  try {
+    const rentals = await Rental.find();
+    res.json(rentals);
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching rentals" });
+  }
+});
+
+// POST a new booking
 app.post("/api/book", async (req, res) => {
   const { pickupDate, returnDate } = req.body;
   if (!pickupDate || !returnDate) return res.status(400).json({ error: "Pickup and return dates required" });
@@ -79,7 +95,7 @@ app.post("/api/book", async (req, res) => {
   }
 });
 
-// Rent car
+// POST a new rental
 app.post("/api/rent-car", async (req, res) => {
   const { name, price, days, total, driverAge, phone, passport } = req.body;
   if (!name || !price || !days || !total || !driverAge) return res.status(400).json({ error: "Missing required fields" });
@@ -93,27 +109,27 @@ app.post("/api/rent-car", async (req, res) => {
   }
 });
 
+// DELETE a booking by ID
+app.delete("/api/bookings/:id", async (req, res) => {
+  try {
+    await Booking.findByIdAndDelete(req.params.id);
+    res.json({ message: "Booking deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Error deleting booking" });
+  }
+});
+
+// DELETE old bookings (returnDate < today)
+app.delete("/api/bookings-old", async (req, res) => {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const result = await Booking.deleteMany({ returnDate: { $lt: today } });
+    res.json({ deletedCount: result.deletedCount });
+  } catch (err) {
+    res.status(500).json({ error: "Error deleting old bookings" });
+  }
+});
+
 // --- Start server ---
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Backend running on http://localhost:${PORT}`));
-
-
-// الحصول على جميع الحجز
-app.get("/api/bookings", async (req, res) => {
-  try {
-    const bookings = await Booking.find();
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ error: "Error fetching bookings" });
-  }
-});
-
-// الحصول على جميع السيارات المستأجرة
-app.get("/api/rentals", async (req, res) => {
-  try {
-    const rentals = await Rental.find();
-    res.json(rentals);
-  } catch (err) {
-    res.status(500).json({ error: "Error fetching rentals" });
-  }
-});
